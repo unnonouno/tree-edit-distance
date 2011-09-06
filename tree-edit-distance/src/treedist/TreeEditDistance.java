@@ -24,19 +24,31 @@ public class TreeEditDistance implements TreeDistance {
 			return memo.getScore(pair);
 
 		double score;
+		Operation op;
 		if (f1 == null && f2 == null) {
 			return 0.0;
 		} else if (f1 == null) {
 			score = calcInsertScore(memo, f1, f2);
+			op = Operation.Insertion;
 		} else if (f2 == null) {
 			score = calcDeleteScore(memo, f1, f2);
+			op = Operation.Deletion;
 		} else {
 			double replace = calcReplaceScore(memo, f1, f2);
 			double delete = calcDeleteScore(memo, f1, f2);
 			double insert = calcInsertScore(memo, f1, f2);
-			score = Math.min(Math.min(replace, delete), insert);
+			if (replace < delete && replace < insert) {
+				score = replace;
+				op = Operation.Replacement;
+			} else if (delete < insert) {
+				score = delete;
+				op = Operation.Deletion;
+			} else {
+				score = insert;
+				op = Operation.Insertion;
+			}
 		}
-		memo.set(pair, score);
+		memo.set(pair, score, op);
 		return score;
 	}
 
