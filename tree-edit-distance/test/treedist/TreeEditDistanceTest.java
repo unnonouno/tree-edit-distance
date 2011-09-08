@@ -1,7 +1,5 @@
 package treedist;
 
-import java.util.ArrayList;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
