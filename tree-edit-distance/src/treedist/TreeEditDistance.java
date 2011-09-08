@@ -12,10 +12,54 @@ public class TreeEditDistance implements TreeDistance {
 
 	@Override
 	public double calc(Tree t1, Tree t2) {
+		Memoization memo = new Memoization();
+		return calc(t1, t2, memo, null);
+	}
+
+	private double calc(Tree t1, Tree t2, Memoization memo, Edit edit) {
 		if (t1 == null || t2 == null)
 			throw new NullPointerException();
+		SubForest root1 = new SubForest(t1);
+		SubForest root2 = new SubForest(t2);
+		double score = calc(memo, root1, root2);
+		if (edit != null) {
+			this.revertOperation(memo, root1, root2, edit);
+		}
+		return score;
+	}
 
-		return calc(new Memoization(), new SubForest(t1), new SubForest(t2));
+	public double calc(Tree t1, Tree t2, Edit edit) {
+		Memoization memo = new Memoization();
+		return calc(t1, t2, memo, edit);
+	}
+
+	private void revertOperation(Memoization memo, SubForest f1, SubForest f2,
+			Edit edit) {
+		if (f1 == null && f2 == null) {
+			return;
+		} else {
+			ForestPair pair = new ForestPair(f1, f2);
+			Operation op = memo.getOperation(pair);
+			switch (op) {
+			case Deletion:
+				if (edit != null)
+					edit.setDeletion(f1.head());
+				revertOperation(memo, f1.deleteHead(), f2, edit);
+				break;
+			case Insertion:
+				if (edit != null)
+					edit.setInsertion(f2.head());
+				revertOperation(memo, f1, f2.deleteHead(), edit);
+				break;
+			case Replacement:
+				if (edit != null)
+					edit.setReplacement(f1.head(), f2.head());
+				revertOperation(memo, f1.getHeadChild(), f2.getHeadChild(),
+						edit);
+				revertOperation(memo, f1.getSibling(), f2.getSibling(), edit);
+				break;
+			}
+		}
 	}
 
 	private double calc(Memoization memo, SubForest f1, SubForest f2) {

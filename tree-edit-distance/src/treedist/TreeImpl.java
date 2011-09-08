@@ -3,9 +3,9 @@ package treedist;
 import java.util.Arrays;
 
 public class TreeImpl implements Tree {
-	private int[] childs;
-	private int[] siblings;
-	private int[] parents;
+	private final int[] childs;
+	private final int[] siblings;
+	private final int[] parents;
 
 	public TreeImpl(int[] childs, int[] siblings, int[] parents) {
 		this.childs = childs;
@@ -79,6 +79,11 @@ public class TreeImpl implements Tree {
 	@Override
 	public int getParent(int nodeId) {
 		return parents[nodeId];
+	}
+
+	@Override
+	public int size() {
+		return this.parents.length;
 	}
 
 }

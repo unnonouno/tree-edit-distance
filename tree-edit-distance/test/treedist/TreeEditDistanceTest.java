@@ -1,5 +1,7 @@
 package treedist;
 
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -60,14 +62,33 @@ public class TreeEditDistanceTest {
 		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
 		Assert.assertEquals(2.0, dist.calc(t1, t2));
 
+		Edit edit = new Edit(t1, t2);
+		dist.calc(t1, t2, edit);
+		Assert.assertEquals(-1, edit.getTree1Operation(2));
+
 		// insert
 		dist = new TreeEditDistance(new ScoreImpl(t1, t3));
 		Assert.assertEquals(3.0, dist.calc(t1, t3));
+
+		edit = new Edit(t1, t3);
+		dist.calc(t1, t3, edit);
+		Assert.assertEquals(-1, edit.getTree2Operation(2));
+
+		// insert
 		dist = new TreeEditDistance(new ScoreImpl(t1, t5));
 		Assert.assertEquals(3.0, dist.calc(t1, t5));
+
+		edit = new Edit(t1, t5);
+		dist.calc(t1, t5, edit);
+		Assert.assertEquals(-1, edit.getTree2Operation(2));
 
 		// replace
 		dist = new TreeEditDistance(new ScoreImpl(t1, t4));
 		Assert.assertEquals(4.0, dist.calc(t1, t4));
+		
+		edit = new Edit(t1, t4);
+		dist.calc(t1, t4, edit);
+		Assert.assertEquals(2, edit.getTree1Operation(2));
+		Assert.assertEquals(2, edit.getTree2Operation(2));
 	}
 }

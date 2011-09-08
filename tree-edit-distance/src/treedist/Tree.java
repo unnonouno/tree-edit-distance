@@ -10,4 +10,6 @@ public interface Tree {
 	public int getNextSibling(int nodeId);
 	
 	public int getParent(int nodeId);
+	
+	public int size();
 }
