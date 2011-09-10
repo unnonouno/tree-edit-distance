@@ -32,7 +32,7 @@ public class TreeImpl implements Tree {
 			int p = parents[i];
 			if (p == Tree.NOT_FOUND) {
 				if (root != -1) {
-					throw new IllegalArgumentException();
+					throw new IllegalArgumentException("duplicated root nodes");
 				}
 				root = i;
 			} else if (childs[p] == Tree.NOT_FOUND) {
