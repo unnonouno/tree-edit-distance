@@ -60,34 +60,34 @@ public class TreeEditDistanceTest {
 		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
 		Assert.assertEquals(2.0, dist.calc(t1, t2));
 
-		Edit edit = new Edit(t1, t2);
-		dist.calc(t1, t2, edit);
-		Assert.assertEquals(-1, edit.getTree1Operation(2));
+		Mapping map = new Mapping(t1, t2);
+		dist.calc(t1, t2, map);
+		Assert.assertEquals(-1, map.getTree1Operation(2));
 
 		// insert
 		dist = new TreeEditDistance(new ScoreImpl(t1, t3));
 		Assert.assertEquals(3.0, dist.calc(t1, t3));
 
-		edit = new Edit(t1, t3);
-		dist.calc(t1, t3, edit);
-		Assert.assertEquals(-1, edit.getTree2Operation(2));
+		map = new Mapping(t1, t3);
+		dist.calc(t1, t3, map);
+		Assert.assertEquals(-1, map.getTree2Operation(2));
 
 		// insert
 		dist = new TreeEditDistance(new ScoreImpl(t1, t5));
 		Assert.assertEquals(3.0, dist.calc(t1, t5));
 
-		edit = new Edit(t1, t5);
-		dist.calc(t1, t5, edit);
-		Assert.assertEquals(-1, edit.getTree2Operation(2));
+		map = new Mapping(t1, t5);
+		dist.calc(t1, t5, map);
+		Assert.assertEquals(-1, map.getTree2Operation(2));
 
 		// replace
 		dist = new TreeEditDistance(new ScoreImpl(t1, t4));
 		Assert.assertEquals(4.0, dist.calc(t1, t4));
 
-		edit = new Edit(t1, t4);
-		dist.calc(t1, t4, edit);
-		Assert.assertEquals(2, edit.getTree1Operation(2));
-		Assert.assertEquals(2, edit.getTree2Operation(2));
+		map = new Mapping(t1, t4);
+		dist.calc(t1, t4, map);
+		Assert.assertEquals(2, map.getTree1Operation(2));
+		Assert.assertEquals(2, map.getTree2Operation(2));
 	}
 
 	@Test
@@ -99,9 +99,9 @@ public class TreeEditDistanceTest {
 				new int[] { 1, -1, }, //
 				new int[] { 1, 2, });
 		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
-		Edit edit = new Edit(t1, t2);
-		double s = dist.calc(t1, t2, edit);
-		System.out.println(edit);
+		Mapping map = new Mapping(t1, t2);
+		double s = dist.calc(t1, t2, map);
+		System.out.println(map);
 		Assert.assertEquals(2.0, s);
 	}
 }

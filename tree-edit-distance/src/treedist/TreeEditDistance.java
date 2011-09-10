@@ -16,7 +16,7 @@ public class TreeEditDistance implements TreeDistance {
 		return calc(t1, t2, memo, null);
 	}
 
-	private double calc(Tree t1, Tree t2, Memoization memo, Edit edit) {
+	private double calc(Tree t1, Tree t2, Memoization memo, Mapping edit) {
 		if (t1 == null || t2 == null)
 			throw new NullPointerException();
 		Forest root1 = new Forest(t1);
@@ -28,13 +28,13 @@ public class TreeEditDistance implements TreeDistance {
 		return score;
 	}
 
-	public double calc(Tree t1, Tree t2, Edit edit) {
+	public double calc(Tree t1, Tree t2, Mapping edit) {
 		Memoization memo = new Memoization();
 		return calc(t1, t2, memo, edit);
 	}
 
 	private void revertOperation(Memoization memo, Forest f1, Forest f2,
-			Edit edit) {
+			Mapping map) {
 		if (f1 == null && f2 == null) {
 			return;
 		} else {
@@ -42,21 +42,20 @@ public class TreeEditDistance implements TreeDistance {
 			Operation op = memo.getOperation(pair);
 			switch (op) {
 			case Deletion:
-				if (edit != null)
-					edit.setDeletion(f1.head());
-				revertOperation(memo, f1.deleteHead(), f2, edit);
+				if (map != null)
+					map.setDeletion(f1.head());
+				revertOperation(memo, f1.deleteHead(), f2, map);
 				break;
 			case Insertion:
-				if (edit != null)
-					edit.setInsertion(f2.head());
-				revertOperation(memo, f1, f2.deleteHead(), edit);
+				if (map != null)
+					map.setInsertion(f2.head());
+				revertOperation(memo, f1, f2.deleteHead(), map);
 				break;
 			case Replacement:
-				if (edit != null)
-					edit.setReplacement(f1.head(), f2.head());
-				revertOperation(memo, f1.getInside(), f2.getInside(),
-						edit);
-				revertOperation(memo, f1.getOutside(), f2.getOutside(), edit);
+				if (map != null)
+					map.setReplacement(f1.head(), f2.head());
+				revertOperation(memo, f1.getInside(), f2.getInside(), map);
+				revertOperation(memo, f1.getOutside(), f2.getOutside(), map);
 				break;
 			}
 		}

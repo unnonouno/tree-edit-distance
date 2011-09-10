@@ -2,14 +2,14 @@ package treedist;
 
 import java.util.Arrays;
 
-public class Edit {
+public class Mapping {
 	private int[] tree1, tree2;
 	
-	public Edit(Tree tree1, Tree tree2) {
+	public Mapping(Tree tree1, Tree tree2) {
 		this(tree1.size(), tree2.size());
 	}
 
-	public Edit(int len1, int len2) {
+	public Mapping(int len1, int len2) {
 		this.tree1 = new int[len1];
 		this.tree2 = new int[len2];
 
