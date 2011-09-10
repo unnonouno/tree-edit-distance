@@ -1,11 +1,11 @@
 package treedist;
 
-class SubForest {
+class Forest {
 	private final Tree tree;
 	private final int head;
 	private final int root;
 
-	public SubForest(Tree tree) {
+	public Forest(Tree tree) {
 		if (tree == null)
 			throw new NullPointerException();
 
@@ -13,7 +13,7 @@ class SubForest {
 		this.head = this.root = tree.getRoot();
 	}
 
-	private SubForest(Tree tree, int head, int root) {
+	private Forest(Tree tree, int head, int root) {
 		this.tree = tree;
 		this.head = head;
 		this.root = root;
@@ -23,14 +23,14 @@ class SubForest {
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
-		} else if (obj instanceof SubForest) {
-			return this.equals((SubForest) obj);
+		} else if (obj instanceof Forest) {
+			return this.equals((Forest) obj);
 		} else {
 			return false;
 		}
 	}
 
-	public boolean equals(SubForest forest) {
+	public boolean equals(Forest forest) {
 		return this.tree == forest.tree && this.head == forest.head
 				&& this.root == forest.root;
 	}
@@ -45,8 +45,8 @@ class SubForest {
 		return "root: " + this.root + ", head: " + this.head;
 	}
 
-	private SubForest subForest(int head, int root) {
-		return new SubForest(this.tree, head, root);
+	private Forest subForest(int head, int root) {
+		return new Forest(this.tree, head, root);
 	}
 
 	public int head() {
@@ -57,17 +57,17 @@ class SubForest {
 		return this.root;
 	}
 
-	public SubForest deleteHead() {
+	public Forest deleteHead() {
 		int child = tree.getFirstChild(head);
 		if (child == Tree.NOT_FOUND) {
-			return this.getSibling();
+			return this.getOutside();
 		} else {
 			int root = (this.root == Tree.NOT_FOUND) ? this.head : this.root;
 			return this.subForest(child, root);
 		}
 	}
 
-	public SubForest getHeadChild() {
+	public Forest getInside() {
 		int child = this.tree.getFirstChild(this.head);
 		if (child == Tree.NOT_FOUND) {
 			return null;
@@ -76,7 +76,7 @@ class SubForest {
 		}
 	}
 
-	public SubForest getSibling() {
+	public Forest getOutside() {
 		int node = this.head;
 		while (true) {
 			if (node == this.root) {

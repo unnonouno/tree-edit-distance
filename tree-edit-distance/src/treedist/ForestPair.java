@@ -1,7 +1,7 @@
 package treedist;
 
 public class ForestPair {
-	private final SubForest forest1, forest2;
+	private final Forest forest1, forest2;
 
 	/**
 	 * Make a new forest pair.
@@ -11,7 +11,7 @@ public class ForestPair {
 	 * @param forest1
 	 * @param forest2
 	 */
-	public ForestPair(SubForest forest1, SubForest forest2) {
+	public ForestPair(Forest forest1, Forest forest2) {
 		this.forest1 = forest1;
 		this.forest2 = forest2;
 	}
@@ -39,7 +39,7 @@ public class ForestPair {
 				&& optionalForestEquqlas(this.forest2, pair.forest2);
 	}
 
-	private static boolean optionalForestEquqlas(SubForest f1, SubForest f2) {
+	private static boolean optionalForestEquqlas(Forest f1, Forest f2) {
 		if (f1 == null && f2 == null) {
 			return true;
 		} else if (f1 == null || f2 == null) {

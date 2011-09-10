@@ -19,8 +19,8 @@ public class TreeEditDistance implements TreeDistance {
 	private double calc(Tree t1, Tree t2, Memoization memo, Edit edit) {
 		if (t1 == null || t2 == null)
 			throw new NullPointerException();
-		SubForest root1 = new SubForest(t1);
-		SubForest root2 = new SubForest(t2);
+		Forest root1 = new Forest(t1);
+		Forest root2 = new Forest(t2);
 		double score = calc(memo, root1, root2);
 		if (edit != null) {
 			this.revertOperation(memo, root1, root2, edit);
@@ -33,7 +33,7 @@ public class TreeEditDistance implements TreeDistance {
 		return calc(t1, t2, memo, edit);
 	}
 
-	private void revertOperation(Memoization memo, SubForest f1, SubForest f2,
+	private void revertOperation(Memoization memo, Forest f1, Forest f2,
 			Edit edit) {
 		if (f1 == null && f2 == null) {
 			return;
@@ -54,15 +54,15 @@ public class TreeEditDistance implements TreeDistance {
 			case Replacement:
 				if (edit != null)
 					edit.setReplacement(f1.head(), f2.head());
-				revertOperation(memo, f1.getHeadChild(), f2.getHeadChild(),
+				revertOperation(memo, f1.getInside(), f2.getInside(),
 						edit);
-				revertOperation(memo, f1.getSibling(), f2.getSibling(), edit);
+				revertOperation(memo, f1.getOutside(), f2.getOutside(), edit);
 				break;
 			}
 		}
 	}
 
-	private double calc(Memoization memo, SubForest f1, SubForest f2) {
+	private double calc(Memoization memo, Forest f1, Forest f2) {
 		ForestPair pair = new ForestPair(f1, f2);
 		if (memo.cached(pair))
 			return memo.getScore(pair);
@@ -96,17 +96,17 @@ public class TreeEditDistance implements TreeDistance {
 		return score;
 	}
 
-	private double calcReplaceScore(Memoization memo, SubForest f1, SubForest f2) {
-		double s1 = calc(memo, f1.getHeadChild(), f2.getHeadChild());
-		double s2 = calc(memo, f1.getSibling(), f2.getSibling());
+	private double calcReplaceScore(Memoization memo, Forest f1, Forest f2) {
+		double s1 = calc(memo, f1.getInside(), f2.getInside());
+		double s2 = calc(memo, f1.getOutside(), f2.getOutside());
 		return s1 + s2 + score.replace(f1.head(), f2.head());
 	}
 
-	private double calcDeleteScore(Memoization memo, SubForest f1, SubForest f2) {
+	private double calcDeleteScore(Memoization memo, Forest f1, Forest f2) {
 		return calc(memo, f1.deleteHead(), f2) + score.delete(f1.head());
 	}
 
-	private double calcInsertScore(Memoization memo, SubForest f1, SubForest f2) {
+	private double calcInsertScore(Memoization memo, Forest f1, Forest f2) {
 		return calc(memo, f1, f2.deleteHead()) + score.insert(f2.head());
 	}
 }
