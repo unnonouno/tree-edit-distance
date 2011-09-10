@@ -3,11 +3,13 @@ package treedist;
 import java.util.Arrays;
 
 public class TreeImpl implements Tree {
+	private int root;
 	private final int[] childs;
 	private final int[] siblings;
 	private final int[] parents;
 
-	public TreeImpl(int[] childs, int[] siblings, int[] parents) {
+	public TreeImpl(int root, int[] childs, int[] siblings, int[] parents) {
+		this.root = root;
 		this.childs = childs;
 		this.siblings = siblings;
 		this.parents = parents;
@@ -25,10 +27,14 @@ public class TreeImpl implements Tree {
 		Arrays.fill(childs, Tree.NOT_FOUND);
 		Arrays.fill(siblings, Tree.NOT_FOUND);
 
+		int root = -1;
 		for (int i = 0; i < n; ++i) {
 			int p = parents[i];
 			if (p == Tree.NOT_FOUND) {
-				// root
+				if (root != -1) {
+					throw new IllegalArgumentException();
+				}
+				root = i;
 			} else if (childs[p] == Tree.NOT_FOUND) {
 				childs[p] = i;
 				lastChild[p] = i;
@@ -38,6 +44,7 @@ public class TreeImpl implements Tree {
 			}
 		}
 
+		this.root = root;
 		this.childs = childs;
 		this.siblings = siblings;
 		this.parents = parents;
@@ -63,7 +70,7 @@ public class TreeImpl implements Tree {
 
 	@Override
 	public int getRoot() {
-		return 0;
+		return root;
 	}
 
 	@Override

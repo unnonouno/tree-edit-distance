@@ -17,6 +17,25 @@ public class Edit {
 		Arrays.fill(this.tree2, Tree.NOT_FOUND);
 	}
 	
+	private static void appendIntArray(StringBuilder buf, int[] array) {
+		for (int i = 0; i < array.length; ++i) {
+			if (i != 0)
+				buf.append(", ");
+			buf.append(i);
+			buf.append("-> ");
+			buf.append(array[i]);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		appendIntArray(buf, this.tree1);
+		buf.append("\n");
+		appendIntArray(buf, this.tree2);
+		return buf.toString();
+	}
+	
 	public void setDeletion(int node1) {
 		this.tree1[node1] = Tree.NOT_FOUND;
 	}

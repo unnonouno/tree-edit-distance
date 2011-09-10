@@ -83,10 +83,25 @@ public class TreeEditDistanceTest {
 		// replace
 		dist = new TreeEditDistance(new ScoreImpl(t1, t4));
 		Assert.assertEquals(4.0, dist.calc(t1, t4));
-		
+
 		edit = new Edit(t1, t4);
 		dist.calc(t1, t4, edit);
 		Assert.assertEquals(2, edit.getTree1Operation(2));
 		Assert.assertEquals(2, edit.getTree2Operation(2));
+	}
+
+	@Test
+	public void mid() {
+		LabeledTree t1 = new LabeledTree( //
+				new int[] { 2, 2, -1 }, //
+				new int[] { 0, 1, 2 });
+		LabeledTree t2 = new LabeledTree( //
+				new int[] { 1, -1, }, //
+				new int[] { 1, 2, });
+		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
+		Edit edit = new Edit(t1, t2);
+		double s = dist.calc(t1, t2, edit);
+		System.out.println(edit);
+		Assert.assertEquals(2.0, s);
 	}
 }
