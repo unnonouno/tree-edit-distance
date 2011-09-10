@@ -101,7 +101,20 @@ public class TreeEditDistanceTest {
 		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
 		Mapping map = new Mapping(t1, t2);
 		double s = dist.calc(t1, t2, map);
-		System.out.println(map);
 		Assert.assertEquals(2.0, s);
+	}
+
+	@Test
+	public void insertRoot() {
+		LabeledTree t1 = new LabeledTree( //
+				new int[] { 2, 2, -1 }, //
+				new int[] { 0, 1, 2 });
+		LabeledTree t2 = new LabeledTree( //
+				new int[] { 2, 2, 3, -1 }, //
+				new int[] { 0, 1, 2, 3 });
+		TreeEditDistance dist = new TreeEditDistance(new ScoreImpl(t1, t2));
+		Mapping map = new Mapping(t1, t2);
+		double s = dist.calc(t1, t2, map);
+		Assert.assertEquals(3.0, s);
 	}
 }
