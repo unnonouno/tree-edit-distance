@@ -40,6 +40,11 @@ class SubForest {
 		return Integer.rotateLeft(this.head, 16) ^ this.root;
 	}
 
+	@Override
+	public String toString() {
+		return "root: " + this.root + ", head: " + this.head;
+	}
+
 	private SubForest subForest(int head, int root) {
 		return new SubForest(this.tree, head, root);
 	}
@@ -55,7 +60,7 @@ class SubForest {
 	public SubForest deleteHead() {
 		int child = tree.getFirstChild(head);
 		if (child == Tree.NOT_FOUND) {
-			return null;
+			return this.getSibling();
 		} else {
 			int root = (this.root == Tree.NOT_FOUND) ? this.head : this.root;
 			return this.subForest(child, root);
