@@ -25,6 +25,11 @@ Example
 
 See test programs for more information.
 
+License
+-------
+
+This library is distributed under the new BSD license. See LICENSE file.
+
 Reference
 ---------
 
