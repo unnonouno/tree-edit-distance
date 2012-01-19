@@ -2,6 +2,7 @@ package jrsmith.util;
 
 import java.util.Arrays;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -42,7 +43,7 @@ public class IdStoreTest extends AbstractIntegerIdStoreTest {
     public final void testIdStoreListOfTDuplicate() {
         // Ensure duplicate elements cause no problems
         IdStore<Integer> duplicateStore = createTestListStore(DUPLICATE_ARRAY);
-        assert (matches(duplicateStore, DUPLICATE_ARRAY));
+        Assert.assertTrue(matches(duplicateStore, DUPLICATE_ARRAY));
     }
 
     /**
@@ -54,6 +55,6 @@ public class IdStoreTest extends AbstractIntegerIdStoreTest {
         IdStore<Integer> store = createEmptyStore();
         // Test storing a duplicate
         int index = store.store(0);
-        assert (store.store(0) == index + 1);
+        Assert.assertEquals(store.store(0), index + 1);
     }
 }

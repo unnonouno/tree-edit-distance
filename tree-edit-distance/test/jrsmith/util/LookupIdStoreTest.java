@@ -3,6 +3,7 @@ package jrsmith.util;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -45,7 +46,7 @@ public class LookupIdStoreTest extends AbstractIntegerIdStoreTest {
     @Test(expected = IllegalArgumentException.class)
     public final void testIdStoreListOfTDuplicate() {
         IdStore<Integer> store = createTestListStore(DUPLICATE_ARRAY);
-        assert (store == null);
+        Assert.assertNull(store);
     }
 
     /**
@@ -68,10 +69,10 @@ public class LookupIdStoreTest extends AbstractIntegerIdStoreTest {
         LookupIdStore<Integer> store = createEmptyStore();
         for (int i : TEST_ARRAY) {
             int id = store.store(i);
-            assert (store.getId(i) == id);
+            Assert.assertEquals(store.getId(i), id);
         }
         for (int i = 0; i < TEST_ARRAY.length; i++) {
-            assert (store.getId(TEST_ARRAY[i]) == i);
+            Assert.assertEquals(store.getId(TEST_ARRAY[i]), i);
         }
     }
 
@@ -103,18 +104,18 @@ public class LookupIdStoreTest extends AbstractIntegerIdStoreTest {
     @Test
     public final void testContains() {
         LookupIdStore<Integer> store = createEmptyStore();
-        assert (!store.contains(-1));
-        assert (!store.contains(0));
-        assert (!store.contains(1));
+        Assert.assertFalse(store.contains(-1));
+        Assert.assertFalse(store.contains(0));
+        Assert.assertFalse(store.contains(1));
 
         for (int i = 0; i < TEST_ARRAY.length; i++) {
             store.store(i);
         }
         for (int i = 0; i < TEST_ARRAY.length; i++) {
-            assert (store.contains(i));
+            Assert.assertTrue(store.contains(i));
         }
 
-        assert (!store.contains(-1));
-        assert (!store.contains(TEST_ARRAY.length));
+        Assert.assertFalse(store.contains(-1));
+        Assert.assertFalse(store.contains(TEST_ARRAY.length));
     }
 }

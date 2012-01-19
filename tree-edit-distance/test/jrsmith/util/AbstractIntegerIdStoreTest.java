@@ -2,6 +2,7 @@ package jrsmith.util;
 
 import java.util.Arrays;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -107,11 +108,11 @@ public abstract class AbstractIntegerIdStoreTest {
     public final void testIdStoreListOfT() {
         // Test edge case of the empty list.
         IdStore<Integer> emptyStore = createEmptyListStore();
-        assert (emptyStore.size() == 0);
+        Assert.assertEquals(emptyStore.size(), 0);
 
         // Ensure all items are added
         IdStore<Integer> store = createTestListStore(TEST_ARRAY);
-        assert (matches(store, TEST_ARRAY));
+        Assert.assertTrue(matches(store, TEST_ARRAY));
     }
 
     /**
@@ -122,13 +123,13 @@ public abstract class AbstractIntegerIdStoreTest {
         // Test adding to empty store.
         IdStore<Integer> emptyStore = createEmptyStore();
         for (int i = 0; i < TEST_ARRAY.length; i++) {
-            assert (emptyStore.store(i) == i);
+            Assert.assertEquals(emptyStore.store(i), i);
         }
 
         // Test adding to a store created from a list
         IdStore<Integer> store = createTestListStore(TEST_ARRAY);
         // Test ids are sequential.
-        assert (store.store(-1) == TEST_ARRAY.length);
+        Assert.assertEquals(store.store(-1), TEST_ARRAY.length);
     }
 
     /**
@@ -138,16 +139,16 @@ public abstract class AbstractIntegerIdStoreTest {
     public final void testGetItem() {
         // Test get items
         IdStore<Integer> store = createTestStore(TEST_ARRAY);
-        assert (matches(store, TEST_ARRAY));
+        Assert.assertTrue(matches(store, TEST_ARRAY));
 
         // Test get items from list store
         IdStore<Integer> listStore = createTestListStore(TEST_ARRAY);
-        assert (matches(listStore, TEST_ARRAY));
+        Assert.assertTrue(matches(listStore, TEST_ARRAY));
 
         // Test get an added item
         IdStore<Integer> emptyStore = createEmptyStore();
-        emptyStore.store(1);
-        assert (emptyStore.getItem(0) == 1);
+        emptyStore.store(new Integer(1));
+        Assert.assertEquals(emptyStore.getItem(0), new Integer(1));
     }
 
     /**
@@ -179,8 +180,9 @@ public abstract class AbstractIntegerIdStoreTest {
      */
     @Test
     public final void testSize() {
-        assert (createEmptyStore().size() == 0);
-        assert (createTestStore(TEST_ARRAY).size() == TEST_ARRAY.length);
+        Assert.assertEquals(createEmptyStore().size(), 0);
+        Assert.assertEquals(createTestStore(TEST_ARRAY).size(),
+                TEST_ARRAY.length);
     }
 
     /**
@@ -189,7 +191,7 @@ public abstract class AbstractIntegerIdStoreTest {
     @Test
     public final void testItems() {
         IdStore<Integer> store = createTestStore(TEST_ARRAY);
-        store.items().equals(Arrays.asList(TEST_ARRAY));
+        Assert.assertEquals(store.items(), Arrays.asList(TEST_ARRAY));
     }
 
 }
